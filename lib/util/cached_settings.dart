@@ -11,11 +11,25 @@ class CachedSettings {
 
   CachedSettings(this._data);
 
-  factory CachedSettings.fromJson(Map<String, dynamic> json) => CachedSettings(jsonDecode(json[jsonSerializationKey]));
+  factory CachedSettings.fromJson(Map<String, dynamic> json) {
+    Map<String, dynamic> innerJson = json[jsonSerializationKey];
+    final Map<String, String> deserializedData = <String, String>{};
 
-  Map<String, dynamic> toJson() => {
-        jsonSerializationKey: jsonEncode(_data),
-      };
+    innerJson.forEach((key, value) {
+      deserializedData[key] = value;
+    });
+    return CachedSettings(deserializedData);
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> innerJson = <String, dynamic>{};
+
+    _data.forEach((key, value) {
+      innerJson['\"$key\"'] = '\"$value\"';
+    });
+
+    return <String, dynamic>{'\"$jsonSerializationKey\"': innerJson};
+  }
 
   String operator [](String key) {
     return _data[key].toString();

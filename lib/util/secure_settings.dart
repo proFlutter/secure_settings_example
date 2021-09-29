@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:secure_storage_example/util/cached_settings.dart';
 import 'package:secure_storage_example/util/file_utils.dart';
 
@@ -13,20 +15,17 @@ class SecureSettings {
   SecureSettings(this._cachedSettings, this._fileService);
 
   Future<void> saveSettings() async {
-    final Map<String, dynamic> settingsAsJson = _cachedSettings.toJson();
-    _fileService.saveSettings(settingsAsJson.toString().codeUnits);
+    _fileService.saveSettings(_cachedSettings.toJson().toString().codeUnits);
   }
 
   Future<void> loadSettings() async {
     final List<int> loadedSettings = await _fileService.loadSettings();
-    final String obfuscatedSettings = String.fromCharCodes(loadedSettings);
-    _cachedSettings = CachedSettings.fromJson(obfuscatedSettings as Map<String, dynamic>);
+    final String settingsAsString = String.fromCharCodes(loadedSettings);
+    _cachedSettings = CachedSettings.fromJson(jsonDecode(settingsAsString));
   }
 
   Future<void> _saveValue(String key, String value) async {
     _cachedSettings[key] = value;
-
-    saveSettings();
   }
 
   Future<String> _loadValue(String key) async {
