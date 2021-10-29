@@ -6,7 +6,7 @@ import 'package:secure_storage_example/util/file_utils.dart';
 /// Name: secure_settings
 /// Description: Caches and securely stores user settings on the device
 /// Created by: Pascal Robert on 29.09.2021
-/// Last edited by: Pascal Robert on 29.09.2021
+/// Last edited by: Pascal Robert on 29.10.2021
 
 class SecureSettings {
   CachedSettings _cachedSettings;
@@ -21,7 +21,7 @@ class SecureSettings {
   Future<void> loadSettings() async {
     final List<int> loadedSettings = await _fileService.loadSettings();
     final String settingsAsString = String.fromCharCodes(loadedSettings);
-    _cachedSettings = CachedSettings.fromJson(jsonDecode(settingsAsString));
+    _cachedSettings = CachedSettings.fromJson(settingsAsString);
   }
 
   Future<void> _saveValue(String key, String value) async {

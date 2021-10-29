@@ -61,11 +61,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _saveSettings() {
-    widget.secureSettings.saveSettings();
     widget.secureSettings.saveString('email', _controllerEmail.text);
     widget.secureSettings.saveString('loginToken', _controllerToken.text);
     widget.secureSettings.saveString('refreshToken', _controllerRefreshToken.text);
     widget.secureSettings.saveString('userId', _controllerUserId.text);
+    widget.secureSettings.saveSettings();
     setState(() {});
   }
 
